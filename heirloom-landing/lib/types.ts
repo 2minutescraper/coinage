@@ -56,6 +56,28 @@ export interface PageView {
   userAgent?: string;
 }
 
+export interface UpsertSubmissionInput {
+  sessionId: string;
+  step: number;
+  fields: Partial<
+    Pick<
+      Submission,
+      | "gender"
+      | "ageRange"
+      | "collectionStatus"
+      | "howAcquired"
+      | "collectionSize"
+      | "firstName"
+      | "email"
+    >
+  >;
+  completed?: boolean;
+  utm?: UtmParams;
+  referrer?: string;
+  userAgent?: string;
+  landingPath?: string;
+}
+
 export const TOTAL_FORM_STEPS = 7;
 
 export const STEP_LABELS: Record<number, string> = {

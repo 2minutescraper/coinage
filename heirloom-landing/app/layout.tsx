@@ -23,7 +23,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${fraunces.variable} ${inter.variable} scroll-smooth`}>
+    <html
+      lang="en"
+      className={`${fraunces.variable} ${inter.variable} scroll-smooth`}
+      data-scroll-behavior="smooth"
+    >
       <body className="bg-parchment text-ink antialiased">{children}</body>
     </html>
   );
