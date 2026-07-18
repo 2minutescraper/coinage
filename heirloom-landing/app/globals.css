@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+:root {
+  --color-parchment: #f7f2e9;
+  --color-walnut: #211b16;
+  --color-brass: #b8874b;
+  --color-brass-dark: #9c7140;
+  --color-ledger: #2f4a3e;
+  --color-terracotta: #c1613f;
+  --color-ink: #2b2620;
+  --color-warmgrey: #8b8175;
+  --color-rust: #9c4a38;
+  --color-cream: #fbf6ec;
+}
+
+@theme inline {
+  --color-parchment: var(--color-parchment);
+  --color-walnut: var(--color-walnut);
+  --color-brass: var(--color-brass);
+  --color-brass-dark: var(--color-brass-dark);
+  --color-ledger: var(--color-ledger);
+  --color-terracotta: var(--color-terracotta);
+  --color-ink: var(--color-ink);
+  --color-warmgrey: var(--color-warmgrey);
+  --color-rust: var(--color-rust);
+  --color-cream: var(--color-cream);
+  --font-sans: var(--font-sans);
+  --font-serif: var(--font-serif);
+}
+
+body {
+  font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-serif-display {
+  font-family: var(--font-serif), Georgia, serif;
+}
+
+/* Tabular numerals for money figures so digits stay aligned. */
+.tabular-nums-serif {
+  font-family: var(--font-serif), Georgia, serif;
+  font-variant-numeric: tabular-nums;
+}
+
+/* --- Phone mockup shell used by the coded app-screen components --- */
+.phone-shell {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  aspect-ratio: 300 / 616;
+  border-radius: 2.75rem;
+  background: var(--color-walnut);
+  padding: 12px;
+  box-shadow:
+    0 30px 60px -20px rgba(33, 27, 22, 0.45),
+    0 8px 20px -8px rgba(33, 27, 22, 0.35);
+}
+
+.phone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border-radius: 2.1rem;
+  overflow: hidden;
+  background: var(--color-parchment);
+}
+
+.phone-notch {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 34%;
+  height: 22px;
+  background: var(--color-walnut);
+  border-radius: 999px;
+  z-index: 20;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-rise {
+    animation: rise 0.6s ease-out both;
+  }
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
