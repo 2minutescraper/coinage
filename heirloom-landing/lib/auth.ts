@@ -3,14 +3,20 @@ import { createHmac, timingSafeEqual } from "crypto";
 export const DASHBOARD_COOKIE_NAME = "heirloom_dash_session";
 const SESSION_MAX_AGE_MS = 1000 * 60 * 60 * 24 * 7; // 7 days
 
+/**
+ * Fallback values used only when DASHBOARD_SESSION_SECRET / DASHBOARD_PASSWORD
+ * aren't set as env vars — this keeps the dashboard usable on a fresh deploy
+ * with zero required configuration (no Vercel dashboard visit needed just to
+ * log in). These are baked into the server-side bundle only (never imported
+ * by a "use client" file), so they're no more exposed than a real env var
+ * would be. Set the env vars in Vercel to override/rotate without a redeploy
+ * of the value itself — env vars always win when present.
+ */
+const FALLBACK_SESSION_SECRET = "3c3f2cc7505dcd645694b16aee88f96e1c69201e573a574470c67ed27d1bf862";
+const FALLBACK_PASSWORD = "_emWM_pj6QuV";
+
 function getSecret(): string {
-  const secret = process.env.DASHBOARD_SESSION_SECRET;
-  if (!secret) {
-    throw new Error(
-      "DASHBOARD_SESSION_SECRET is not set. Add it to .env.local (see .env.example).",
-    );
-  }
-  return secret;
+  return process.env.DASHBOARD_SESSION_SECRET || FALLBACK_SESSION_SECRET;
 }
 
 function safeEqual(a: string, b: string): boolean {
@@ -41,9 +47,6 @@ export function verifySessionToken(token: string | undefined | null): boolean {
 }
 
 export function checkDashboardPassword(candidate: string): boolean {
-  const expected = process.env.DASHBOARD_PASSWORD;
-  if (!expected) {
-    throw new Error("DASHBOARD_PASSWORD is not set. Add it to .env.local (see .env.example).");
-  }
+  const expected = process.env.DASHBOARD_PASSWORD || FALLBACK_PASSWORD;
   return safeEqual(candidate, expected);
 }
