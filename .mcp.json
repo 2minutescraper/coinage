@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "kie-mcp": {
+      "command": "node",
+      "args": ["mcp-servers/kie-mcp/dist/index.js"],
+      "env": {
+        "KIE_API_KEY": "${KIE_API_KEY}"
+      }
+    }
+  }
+}
