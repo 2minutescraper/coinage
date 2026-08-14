@@ -188,6 +188,79 @@ unlimited path is not open either. Short by ~82 credits.
 
 ---
 
+## Cost comparison: Higgsfield vs kie
+
+Same 30-second video, same 3-block structure, same script. Only the MCP changes.
+
+**Not an equal-confidence comparison.** The Higgsfield numbers were preflighted
+in-session with `get_cost: true` — they are exact. The kie numbers are public
+list prices from third-party comparison pages; `kie.ai` itself is blocked by
+this container's egress proxy, and the kie MCP (`kie_post`, `kie_get`,
+`kie_upload_file`, `kie_download`, `kie_fetch_model_docs`) is not connected to
+this session, so nothing was preflighted or run against it.
+
+### Higgsfield — measured
+
+| Item | Qty | Unit | Credits |
+|---|---|---|---|
+| Clips (`gemini_omni`, 10s, 720p) | 3 | 30 | 90.0 |
+| Voice takes (`seed_audio`) | 3 | 0.6 | 1.8 |
+| Style key (preset resolve) | 1 | free | 0.0 |
+| **Total** | | | **91.8** |
+
+Credits → USD depends on the plan: **$3.58** on Plus ($39 / 1,000 cr),
+**$4.59** at pack rate (~$5 / 100 cr), **$6.89** on Starter ($15 / 200 cr).
+
+### kie — list prices
+
+30 seconds of video, priced per second:
+
+| Video model | $/sec | 30s |
+|---|---|---|
+| Seedance 2.0 Mini | 0.056 | $1.68 |
+| Kling 3.0 std (no audio) | 0.070 | $2.10 |
+| Seedance 2.0 Fast | 0.090 | $2.70 |
+| Kling 3.0 pro | 0.090 | $2.70 |
+| Seedance 2.0 720p | 0.125 | $3.75 |
+| Veo 3.1 Quality 1080p | ~$1.28 / 8s clip | ~$5.12 (4 clips) |
+
+Add-ons: style key image ~$0.03 (one GPT-Image / nano-banana generation —
+kie has no Mixed Media preset, so the key must be generated). Narration is
+~850 characters across the three blocks: ~$0.02 on Gemini/OpenAI TTS,
+~$0.04–0.09 on ElevenLabs via kie.
+
+| Build | Video | +Key | +TTS | Total |
+|---|---|---|---|---|
+| Budget (Seedance Mini + Gemini TTS) | 1.68 | 0.03 | 0.02 | **$1.73** |
+| Mid (Kling 3.0 std + ElevenLabs) | 2.10 | 0.03 | 0.06 | **$2.19** |
+| Like-for-like (Seedance 2.0 720p + ElevenLabs) | 3.75 | 0.03 | 0.06 | **$3.84** |
+
+### Verdict
+
+At comparable quality the two land within a dollar of each other — **$3.84 on
+kie vs $3.58–$4.59 on Higgsfield**. kie only pulls meaningfully ahead if you
+drop to Seedance Mini (~2.5× cheaper).
+
+The decisive difference is not the headline price, it's the **payment shape**.
+Higgsfield needs a 91.8-credit block sitting in the account, and the account
+holds 10 on a free plan — so the run is blocked outright. kie is pay-as-you-go:
+~$2–4 of balance renders this video today, with no minimum.
+
+Three practical differences beyond price:
+
+1. **No assembly tool on kie.** Higgsfield's `explainer_video` is already
+   missing from the current build, so both routes need local assembly anyway.
+   `imageio-ffmpeg` installs cleanly in this container
+   (`/usr/local/lib/python3.11/dist-packages/imageio_ffmpeg/binaries/ffmpeg-linux-x86_64-v7.0.2`),
+   so stitching + burned subtitles is free either way.
+2. **No style preset on kie.** The Mixed Media key is a free `resolve_explainer_preset`
+   call on Higgsfield; on kie it's a generated image passed as an image
+   reference to all three clips. Slightly higher style-drift risk across blocks.
+3. **kie bills in credits with an opaque USD conversion**, so the effective
+   per-second rate can drift from the headline number at volume.
+
+---
+
 ## Sources
 
 - [Jovian–Plutonian gravitational effect — Wikipedia](https://en.wikipedia.org/wiki/Jovian%E2%80%93Plutonian_gravitational_effect)
@@ -199,3 +272,13 @@ unlimited path is not open either. Short by ~82 credits.
 - [Zero gravity for 7 seconds on August 12, 2026: The Project Anchor hoax — Evidence Network](https://evidencenetwork.ca/zero-gravity-for-7-seconds-on-august-12-2026-the-project-anchor-hoax-born-from-a-real-eclipse/)
 - [10 Things About the August 2026 Total Solar Eclipse — timeanddate](https://www.timeanddate.com/news/astronomy/10-things-aug-2026-eclipse)
 - [A Spectacular Solar Eclipse is Coming — National Geographic](https://www.nationalgeographic.com/science/article/august-2026-total-solar-eclipse)
+
+### Pricing sources
+
+- [Cheapest API for Seedance 2, Kling, Wan — Atlas Cloud](https://www.atlascloud.ai/blog/guides/cheapest-api-provider-seedance-2-kling-wan)
+- [Kie.ai Video Generation Guide: Veo 3.1, Kling 3.0 & Seedance API — Bitdoze](https://www.bitdoze.com/kie-ai-video-generation/)
+- [Veo 3 API Pricing Comparison — Kie.ai](https://kie.ai/v3-api-pricing)
+- [Higgsfield Pricing 2026: Plans From $15/mo, Credits in USD — Scopeful](https://www.scopeful.org/tools/higgsfield)
+- [Higgsfield AI Pricing 2026: Plans, Credits & Cost — Layer3Labs](https://www.layer3labs.io/guides/higgsfield-ai-pricing)
+- [Text-to-Speech Price Comparison 2026 — Camb.ai](https://www.camb.ai/blog-post/text-to-speech-price-comparison)
+- [Cheapest AI API for Text-to-Speech in 2026 — APIpulse](https://www.getapipulse.com/cheapest-ai-api-text-to-speech.html)
